@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import 'reflect-metadata';
 import { ColumnDescription, ValueType } from './ColumnDescription';
 import { ColumnDescriptions } from './ColumnDescriptions';
@@ -65,12 +66,14 @@ function getDefaultValue<T>(type: any, options?: LstDataOptions<T>): any {
 
 function getProxyFactory<T>(type: any, propertyName: string, id: number, options?: LstDataOptions<T>): ProxyFactory {
   if (options && options.read && options.write) {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return (dataSet) => new DataSetAny<T>(dataSet, id, getDefaultValue(type, options), options.read!, options.write!);
   } else if (options?.read || options?.write) {
     throw new Error(`You need to specify both, read and write in options to @LstData for ${propertyName}`);
   }
   switch (type) {
     case Number:
+      // eslint-disable-next-line no-case-declarations
       const dataSetClass = options?.unit ? dataSetClassByUnit[options.unit] ?? DataSetNumber : DataSetNumber;
       return (dataSet) => new dataSetClass(dataSet, id, getDefaultValue(type, options));
     case String:
@@ -93,12 +96,14 @@ function getColumnDescriptionFactory<T>(type: any, propertyName: string, id: num
 }
 
 export function LstData<T>(id: number, options?: LstDataOptions<T>) {
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   return function (target: any, propertyName: string) {
     const type = Reflect.getMetadata('design:type', target, propertyName);
     const proxyFactory = getProxyFactory(type, propertyName, id, options);
     const columnDescriptionFactory = getColumnDescriptionFactory(type, propertyName, id, options);
     const map = lstDataMap.get(target);
     if (map) {
+      // eslint-disable-next-line security/detect-object-injection
       map[propertyName] = { proxyFactory, columnDescriptionFactory };
     } else {
       lstDataMap.set(target, { [propertyName]: { proxyFactory, columnDescriptionFactory } });
@@ -114,6 +119,7 @@ interface LstDataAttachmentOptions<T> {
 const lstDataAttachmentMap = new WeakMap<any, Record<string, LstDataAttachmentOptions<any>>>();
 
 export function LstDataAttachment<T>(options?: LstDataAttachmentOptions<T>) {
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   return function (target: any, propertyName: string) {
     const type = Reflect.getMetadata('design:type', target, propertyName);
     if (type !== String && type !== Array && !(options?.read && options?.write)) {
@@ -122,6 +128,7 @@ export function LstDataAttachment<T>(options?: LstDataAttachmentOptions<T>) {
 
     const map = lstDataAttachmentMap.get(target);
     if (map) {
+      // eslint-disable-next-line security/detect-object-injection
       map[propertyName] = (options ?? {}) as LstDataAttachmentOptions<any>;
     } else {
       lstDataAttachmentMap.set(target, {
@@ -151,12 +158,14 @@ export function newDataSet<T, ARGS>(factory: new (...args: ARGS[]) => T, dataSet
     Object.entries(map).forEach(([propertyName, lstData]) => {
       const proxy = lstData.proxyFactory($dataSet);
       if (!dataSet) {
+        // eslint-disable-next-line no-self-assign
         proxy.value = proxy.value; // Initialize in dataSet
       }
 
       const getter = () => proxy.value;
       const setter = (newVal: any) => (proxy.value = newVal);
 
+      // eslint-disable-next-line security/detect-object-injection
       delete (<any>instance)[propertyName];
       Object.defineProperty(instance, propertyName, { get: getter, set: setter, enumerable: true, configurable: true });
     });
@@ -166,6 +175,7 @@ export function newDataSet<T, ARGS>(factory: new (...args: ARGS[]) => T, dataSet
       const getter = attachmentDef.read ? () => attachmentDef.read($dataSet.attachment) : () => $dataSet.attachment;
       const setter = attachmentDef.write ? (v: any) => ($dataSet.attachment = attachmentDef.write(v)) : (v: string[]) => ($dataSet.attachment = v);
 
+      // eslint-disable-next-line security/detect-object-injection
       delete (<any>instance)[propertyName];
       Object.defineProperty(instance, propertyName, { get: getter, set: setter, enumerable: true, configurable: true });
     });
@@ -175,5 +185,6 @@ export function newDataSet<T, ARGS>(factory: new (...args: ARGS[]) => T, dataSet
 
 export function loadDataSet<T, ARGS>(factory: new (...args: ARGS[]) => T, dataSet: DataSet, ...args: ARGS[]): T {
   const instance = newDataSet(factory, dataSet, ...args);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   return (({ $dataSet, ...clone }) => clone)(instance) as any;
 }

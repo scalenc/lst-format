@@ -10,28 +10,28 @@ function fromHex(v: string): number {
 
 export class SheetLoad {
   public static ID = 'SHEET_LOAD';
- 
-  @LstData(10)  
+
+  @LstData(10)
   name!: string;
 
   @LstData(580)
   doubleSheetDetectionActive!: boolean;
 
-  @LstData(660) 
+  @LstData(660)
   calibrationActive!: boolean;
-  
-  @LstData(630) 
+
+  @LstData(630)
   measureSheetActive!: boolean;
-  
-  @LstData(640, { unit: 'mm' }) 
+
+  @LstData(640, { unit: 'mm' })
   measureRangeX!: number;
-  
-  @LstData(650, { unit: 'mm' }) 
+
+  @LstData(650, { unit: 'mm' })
   measureRangeY!: number;
-  
-  @LstData(700) 
+
+  @LstData(700)
   measuringCorner!: string;
-  
+
   @LstData(820)
   sheetAlignment!: boolean;
 
@@ -45,7 +45,7 @@ export class SheetLoad {
   suctionCupSelectionType!: string;
 
   @LstData(720)
-  fanningMagnet!: boolean;;
+  fanningMagnet!: boolean;
 
   @LstData(730)
   rotatingCylinder!: boolean;

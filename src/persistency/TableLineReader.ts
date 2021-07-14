@@ -35,7 +35,7 @@ export class TableLineReader {
 
   private tryReadLineOrFieldConnector(): boolean {
     this.connectFields = false;
-    var isWithinLine = true;
+    let isWithinLine = true;
 
     this.parser.trySkipWhiteSpaces();
     if (this.parser.isAtLineEnd) {

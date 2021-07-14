@@ -59,7 +59,7 @@ export class DataSetAny<T> implements DataSetValue<T> {
     private id: number,
     private defaultValue: T,
     private read: (value: string, unit: string) => T,
-    private write: (value: T, unit: string) => string,
+    private write: (value: T, unit: string) => string
   ) {}
 
   get isDefined(): boolean {
@@ -71,16 +71,19 @@ export class DataSetAny<T> implements DataSetValue<T> {
     if (index < 0) {
       return this.defaultValue;
     }
+    // eslint-disable-next-line security/detect-object-injection
     const value = this.dataset.values[index];
     if (typeof value === 'undefined') {
       return this.defaultValue;
     }
+    // eslint-disable-next-line security/detect-object-injection
     return this.read(value, this.dataset.columnDescriptions.columns[index].unit);
   }
 
   set value(v: T) {
     const index = this.dataset.columnDescriptions.indexById(this.id);
     if (index >= 0) {
+      // eslint-disable-next-line security/detect-object-injection
       this.dataset.values[index] = this.write(v, this.dataset.columnDescriptions.columns[index].unit);
     }
   }
@@ -89,6 +92,7 @@ export class DataSetAny<T> implements DataSetValue<T> {
 export class DataSetUnit extends DataSetAny<number> {
   constructor(dataset: DataSet, id: number, defaultValue: number, factorsByUnit: Record<string, number>) {
     function getFactor(unit: string) {
+      // eslint-disable-next-line security/detect-object-injection
       const factor = factorsByUnit[unit];
       if (!factor) {
         throw new Error(`Unknown unit ${unit}`);
@@ -180,7 +184,7 @@ export class DataSetKilogramPerLiter extends DataSetUnit {
       'kg/m3': 1e-3,
       'kg/dm3': 1,
       'g/cm3': 1,
-      'lb/in3': 0.453592/0.254/0.254/0.254,
+      'lb/in3': 0.453592 / 0.254 / 0.254 / 0.254,
     });
   }
 }

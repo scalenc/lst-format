@@ -38,6 +38,7 @@ describe(SheetLoadData.name, () => {
 
   it('should be copyable', () => {
     const sheetLoadData = newDataSet(SheetLoadData);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const sheetLoadDataCopy = (({ $dataSet, ...copy }) => copy)(sheetLoadData);
 
     sheetLoadData.name = 'ABC';

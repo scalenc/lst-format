@@ -9,7 +9,6 @@
   },
   "extends": [
     "prettier",
-    "prettier/@typescript-eslint",
     "eslint:recommended",
     "plugin:security/recommended",
     "plugin:@typescript-eslint/recommended",

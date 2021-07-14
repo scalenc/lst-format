@@ -19,11 +19,13 @@ export class Table {
 
   public dataSetIndexById(id: number, value: string): number {
     const column = this.columnById(id);
+    // eslint-disable-next-line security/detect-object-injection
     return column === -1 ? -1 : this.dataSets.findIndex((x) => x.values[column] === value);
   }
 
   public dataSetById(id: number, value: string): DataSet | null {
     const index = this.dataSetIndexById(id, value);
+    // eslint-disable-next-line security/detect-object-injection
     return index === -1 ? null : this.dataSets[index];
   }
 

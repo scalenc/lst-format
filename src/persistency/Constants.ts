@@ -1,4 +1,4 @@
-export let Constants = {
+export const Constants = {
   BEGIN_DOCUMENT: 'BD',
   END_DOCUMENT: 'ED',
 

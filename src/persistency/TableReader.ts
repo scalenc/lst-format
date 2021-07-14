@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { ValueType } from '../model/ColumnDescription';
 import { Table } from '../model/Table';
 import { Constants } from './Constants';
@@ -73,7 +74,7 @@ export class TableReader {
       if (this.isDataSetLine()) {
         this.addDataSet();
       } else if (this.isAttachmentStartLine()) {
-        var attachment = this.readAttachment();
+        const attachment = this.readAttachment();
         this.addAttachment(attachment);
       } else {
         break;
@@ -89,7 +90,7 @@ export class TableReader {
       throw `Invalid data set in table ${this.table!.name} in LST line ${this.parser.lineNumber}.`;
     }
 
-    var dataSet = this.table!.addDataSet();
+    const dataSet = this.table!.addDataSet();
     dataSet.values = this.tableLineReader.fields.slice(1); // Remove 'DA' field.
 
     if (this.parser.isOk && this.parser.token == Constants.Table.Data.BEGIN_ATTACHMENT) {
@@ -135,12 +136,12 @@ export class TableReader {
   }
 
   private isColumDescriptionLine(): boolean {
-    var fields = this.tableLineReader.fields;
+    const fields = this.tableLineReader.fields;
     return fields.length > 1 && fields[Constants.Table.ColumnDescription.ID_INDEX].toUpperCase() == Constants.Table.ColumnDescription.ID;
   }
 
   private isDataSetLine(): boolean {
-    var fields = this.tableLineReader.fields;
+    const fields = this.tableLineReader.fields;
     return fields.length > 1 && fields[Constants.Table.Data.ID_INDEX].toUpperCase() == Constants.Table.Data.ID;
   }
 

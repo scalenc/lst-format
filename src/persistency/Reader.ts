@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Document, MeasuringSystem } from '../model/Document';
 import { Constants } from './Constants';
 import { Parser } from './Parser';
@@ -27,7 +28,7 @@ export class Reader {
 
     this.parser.tryReadContentLine();
 
-    var success = this.parser.token == Constants.BEGIN_DOCUMENT;
+    const success = this.parser.token == Constants.BEGIN_DOCUMENT;
     if (success) {
       this.parser.tryReadContentLine();
 
@@ -65,7 +66,7 @@ export class Reader {
   }
 
   private readTable(): void {
-    var tableReader = new TableReader(this.parser);
+    const tableReader = new TableReader(this.parser);
     tableReader.read();
     this.document!.tables.push(tableReader.table!);
   }

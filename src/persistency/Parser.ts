@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Constants } from './Constants';
 
 export class Parser {
@@ -25,7 +26,7 @@ export class Parser {
   }
 
   public tryReadLine(): boolean {
-    var success = this.isOk;null
+    const success = this.isOk;
 
     const p0 = this.pos;
     while (this.isOk && !this.isAtLineEnd) {

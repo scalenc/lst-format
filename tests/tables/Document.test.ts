@@ -1,3 +1,4 @@
+/* eslint-disable security/detect-non-literal-fs-filename */
 import { expect } from 'chai';
 import fs from 'fs';
 import path from 'path';

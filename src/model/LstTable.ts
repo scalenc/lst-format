@@ -1,22 +1,23 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { DataSet } from './DataSet';
 import { Document } from './Document';
 import { loadDataSet, newDataSet } from './LstData';
 
-export interface LstDataSetOptions {}
+const lstTableMap = new WeakMap<any, Record<string, { name: string; dataSetType: new () => unknown }>>();
 
-const lstTableMap = new WeakMap<any, Record<string, { name: string; dataSetType: new () => any; options?: LstDataSetOptions }>>();
-
-export function LstTable(name: string, dataSetType: new () => any, options?: LstDataSetOptions) {
-  return function (target: any, propertyName: string) {
+export function LstTable(name: string, dataSetType: new () => any) {
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  return function (target: any, propertyName: string): void {
     const type = Reflect.getMetadata('design:type', target, propertyName);
     if (type !== Array) {
       throw new Error(`Expect @LstTable for ${propertyName} to be used with an array but found ${type}`);
     }
 
-    const tableDef = { name: name.toUpperCase(), dataSetType, options };
+    const tableDef = { name: name.toUpperCase(), dataSetType };
 
     const map = lstTableMap.get(target);
     if (map) {
+      // eslint-disable-next-line security/detect-object-injection
       map[propertyName] = tableDef;
     } else {
       lstTableMap.set(target, { [propertyName]: tableDef });

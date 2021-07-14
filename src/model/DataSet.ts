@@ -16,6 +16,7 @@ export class DataSet {
 
   public byId(id: number): string | undefined {
     const index = this.columnDescriptions.indexById(id);
+    // eslint-disable-next-line security/detect-object-injection
     return index === -1 ? undefined : this.values[index];
   }
 
@@ -36,6 +37,7 @@ export class DataSet {
   public trySetById(id: number, value: string): boolean {
     const index = this.columnDescriptions.indexById(id);
     if (index >= 0) {
+      // eslint-disable-next-line security/detect-object-injection
       this.values[index] = value;
       return true;
     }

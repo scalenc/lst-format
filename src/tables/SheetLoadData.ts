@@ -10,7 +10,7 @@ function fromHex(v: string): number {
 
 export class SheetLoadData {
   public static ID = 'SHEET_LOAD_DATA';
-  
+
   @LstData(10)
   name!: string;
 

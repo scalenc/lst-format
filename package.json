@@ -1,13 +1,15 @@
 {
   "name": "@scalenc/lst-format",
-  "version": "1.0.3",
+  "version": "0.0.0-development",
   "description": "Library for handling TRUMPF LST file format.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
+    "lint": "eslint .",
+    "test": "mocha -r ts-node/register tests/*.test.ts --exit",
+    "coverage": "nyc --reporter lcov --reporter cobertura yarn test",
     "build": "tsc",
-    "prepublish": "tsc",
-    "test": "mocha --require ts-node/register ./test/**/*.test.ts"
+    "prepublish": "tsc"
   },
   "dependencies": {
     "reflect-metadata": "^0.1.13"
@@ -16,17 +18,47 @@
     "@types/chai": "^4.2.21",
     "@types/mocha": "^8.2.3",
     "@types/node": "^16.3.1",
-    "@typescript-eslint/eslint-plugin": "^4.28.2",
-    "@typescript-eslint/parser": "^4.28.2",
+    "@typescript-eslint/eslint-plugin": "^4.28.3",
+    "@typescript-eslint/parser": "^4.28.3",
     "chai": "^4.3.4",
+    "commitlint": "^12.1.4",
     "eslint": "^7.30.0",
     "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-security": "^1.4.0",
+    "husky": "^7.0.1",
+    "lint-staged": "^11.0.1",
     "mocha": "^9.0.2",
+    "nyc": "^15.1.0",
     "prettier": "^2.3.2",
+    "pretty-quick": "^3.1.1",
     "ts-node": "^10.1.0",
     "typescript": "^4.3.5"
   },
   "license": "UNLICENSED",
-  "files": ["/dist"]
+  "mocha": {
+    "diff": true,
+    "extension": [
+      "ts"
+    ],
+    "spec": "tests/**/*.test.ts",
+    "require": "ts-node/register",
+    "watch-files": [
+      "src/**/*.ts",
+      "tests/**/*.ts"
+    ],
+    "watch-ignore": []
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "./node_modules/.bin/eslint"
+    ],
+    "*.{js,jsx,ts,tsx,json,md}": [
+      "./node_modules/.bin/prettier --list-different"
+    ]
+  },
+  "files": [
+    "/dist"
+  ]
 }

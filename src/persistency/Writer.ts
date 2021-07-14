@@ -132,6 +132,7 @@ export class Writer {
     let lineLength = Constants.Table.Data.ID.length + 1; // + 1 separator char.
 
     for (let i = 0; i < dataSet.values.length; ++i) {
+      // eslint-disable-next-line security/detect-object-injection
       let output = this.writeValue(columDescriptions.columns[i].valueType, dataSet.values[i]);
       if (i + 1 < dataSet.values.length) {
         output += Constants.Table.FIELD_SEPARATOR;

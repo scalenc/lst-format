@@ -15,6 +15,7 @@ export class Document {
 
   public get(name: string): Table | undefined {
     const index = this.indexByName(name);
+    // eslint-disable-next-line security/detect-object-injection
     return index === -1 ? undefined : this.tables[index];
   }
 
@@ -25,6 +26,7 @@ export class Document {
       this.tables.push(t);
       return t;
     }
+    // eslint-disable-next-line security/detect-object-injection
     return this.tables[index];
   }
 }
