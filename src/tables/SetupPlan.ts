@@ -15,17 +15,74 @@ export class SetupPlan {
   @LstData(40)
   controlVersion!: string;
 
+  @LstData(50)
+  company!: string;
+
   @LstData(60)
   mainProgramName!: string;
+
+  @LstData(70)
+  author!: string;
+
+  @LstData(80)
+  date!: string;
+
+  @LstData(90)
+  order!: string;
 
   @LstData(100)
   sheetRepetitionCount!: number;
 
-  @LstData(150)
-  processingTime!: string;
+  @LstData(110)
+  sheetName!: string;
 
-  @LstData(270)
-  cuttingLength!: string;
+  @LstData(120)
+  size!: number;
+
+  @LstData(130)
+  material!: string;
+
+  @LstData(140, { unit: 'kg' })
+  sheetWeight!: number;
+
+  @LstData(150, { unit: 'min' })
+  processingTime!: number;
+
+  @LstData(160)
+  note!: string;
+
+  @LstData(170)
+  automated!: boolean;
+
+  @LstData(180)
+  generatedByTops!: boolean;
+
+  @LstData(190)
+  setupPlanName!: string;
+
+  @LstData(200)
+  storageId!: string;
+
+  @LstData(210)
+  hasPalletization!: boolean;
+
+  @LstData(220)
+  palletizingMode!: number;
+
+  @LstData(230)
+  clearPallet!: boolean;
+
+  @LstData(240)
+  clearSuctionCups!: boolean;
+
+  @LstData(250)
+  palletType!: string;
+
+  @LstData(260, { unit: 'min' })
+  processingTimeForPierceLine!: number;
+
+  @LstData(270, { unit: 'mm' })
+  cuttingLength!: number;
 
   @LstData(280)
   machineViewerName!: string;
