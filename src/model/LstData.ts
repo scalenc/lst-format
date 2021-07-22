@@ -138,7 +138,7 @@ export function LstDataAttachment<T>(options?: LstDataAttachmentOptions<T>) {
   };
 }
 
-export function newColumnDescriptions<T>(factory: new (...args: any[]) => T): ColumnDescriptions {
+export function newColumnDescriptions<T, ARGS extends any[]>(factory: new (...args: ARGS) => T): ColumnDescriptions {
   const map = lstDataMap.get(factory.prototype);
   if (!map) {
     throw new Error(`Type ${factory} is not decorated with @LstData decorator.`);
@@ -146,7 +146,7 @@ export function newColumnDescriptions<T>(factory: new (...args: any[]) => T): Co
   return new ColumnDescriptions(Object.values(map).map((lstData) => lstData.columnDescriptionFactory()));
 }
 
-export function newDataSet<T, ARGS>(factory: new (...args: ARGS[]) => T, dataSet?: DataSet, ...args: ARGS[]): T & { $dataSet: DataSet } {
+export function newDataSet<T, ARGS extends any[]>(factory: new (...args: ARGS) => T, dataSet?: DataSet, ...args: ARGS): T & { $dataSet: DataSet } {
   const map = lstDataMap.get(factory.prototype);
   const attachmentMap = lstDataAttachmentMap.get(factory.prototype);
   if (!map && !attachmentMap) {
@@ -183,7 +183,7 @@ export function newDataSet<T, ARGS>(factory: new (...args: ARGS[]) => T, dataSet
   return instance;
 }
 
-export function loadDataSet<T, ARGS>(factory: new (...args: ARGS[]) => T, dataSet: DataSet, ...args: ARGS[]): T {
+export function loadDataSet<T, ARGS extends any[]>(factory: new (...args: ARGS) => T, dataSet: DataSet, ...args: ARGS): T {
   const instance = newDataSet(factory, dataSet, ...args);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   return (({ $dataSet, ...clone }) => clone)(instance) as any;

@@ -41,13 +41,13 @@ function loadIntoDocument<T>(type: any, instance: T, document: Document, dataSet
   });
 }
 
-export function newDocument<T, ARGS>(constructor: new (...args: ARGS[]) => T, document: Document, ...args: ARGS[]): T & { $document: Document } {
+export function newDocument<T, ARGS extends any[]>(constructor: new (...args: ARGS) => T, document: Document, ...args: ARGS): T & { $document: Document } {
   const instance = new constructor(...args);
   loadIntoDocument(constructor.prototype, instance, document, newDataSet);
   return Object.assign(instance, { $document: document });
 }
 
-export function loadDocument<T, ARGS>(constructor: new (...args: ARGS[]) => T, document: Document, ...args: ARGS[]): T {
+export function loadDocument<T, ARGS extends any[]>(constructor: new (...args: ARGS) => T, document: Document, ...args: ARGS): T {
   const instance = new constructor(...args);
   loadIntoDocument(constructor.prototype, instance, document, loadDataSet);
   return instance;
