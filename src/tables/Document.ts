@@ -1,5 +1,7 @@
 import { LstTable } from '../model/LstTable';
 import { MachineLoadData } from './MachineLoadData';
+import { PartsInProgram } from './PartsInProgram';
+import { PartsInProgramPos } from './PartsInProgramPos';
 import { ProductionOrder } from './ProductionOrder';
 import { Program } from './Program';
 import { SetupPlan } from './SetupPlan';
@@ -25,6 +27,12 @@ export class Document {
 
   @LstTable(SheetLoadData.ID, SheetLoadData)
   sheetLoadDatas: SheetLoadData[] = [];
+
+  @LstTable(PartsInProgram.ID, PartsInProgram)
+  partsInProgram: PartsInProgram[] = [];
+
+  @LstTable(PartsInProgramPos.ID, PartsInProgramPos)
+  partsInProgramPos: PartsInProgramPos[] = [];
 
   @LstTable(Program.ID, Program)
   programs: Program[] = [];
