@@ -1,10 +1,10 @@
-import { Document } from './Document';
-import { MachineLoadData } from './MachineLoadData';
-import { ProductionOrder } from './ProductionOrder';
-import { Program } from './Program';
-import { SetupPlan } from './SetupPlan';
-import { SheetLoad } from './SheetLoad';
-import { SheetLoadData } from './SheetLoadData';
-import { SheetTech } from './SheetTech';
-
-export { Document, MachineLoadData, ProductionOrder, Program, SetupPlan, SheetLoad, SheetLoadData, SheetTech };
+export * from './Document';
+export * from './MachineLoadData';
+export * from './PartsInProgram';
+export * from './PartsInProgramPos';
+export * from './ProductionOrder';
+export * from './Program';
+export * from './SetupPlan';
+export * from './SheetLoad';
+export * from './SheetLoadData';
+export * from './SheetTech';
