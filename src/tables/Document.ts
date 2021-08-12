@@ -1,4 +1,5 @@
 import { LstTable } from '../model/LstTable';
+import { LTTMasterData } from './LTTMasterData';
 import { MachineLoadData } from './MachineLoadData';
 import { PartsInProgram } from './PartsInProgram';
 import { PartsInProgramPos } from './PartsInProgramPos';
@@ -8,6 +9,7 @@ import { SetupPlan } from './SetupPlan';
 import { SheetLoad } from './SheetLoad';
 import { SheetLoadData } from './SheetLoadData';
 import { SheetTech } from './SheetTech';
+import { ToolMasterData } from './ToolMasterData';
 
 export class Document {
   @LstTable(ProductionOrder.ID, ProductionOrder)
@@ -33,6 +35,12 @@ export class Document {
 
   @LstTable(PartsInProgramPos.ID, PartsInProgramPos)
   partsInProgramPos: PartsInProgramPos[] = [];
+
+  @LstTable(LTTMasterData.ID, LTTMasterData)
+  lttMasterData: LTTMasterData[] = [];
+
+  @LstTable(ToolMasterData.ID, ToolMasterData)
+  toolMasterData: ToolMasterData[] = [];
 
   @LstTable(Program.ID, Program)
   programs: Program[] = [];
