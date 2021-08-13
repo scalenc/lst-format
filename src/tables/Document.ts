@@ -3,6 +3,7 @@ import { LTTMasterData } from './LTTMasterData';
 import { MachineLoadData } from './MachineLoadData';
 import { PartsInProgram } from './PartsInProgram';
 import { PartsInProgramPos } from './PartsInProgramPos';
+import { PartUnload } from './PartUnload';
 import { ProductionOrder } from './ProductionOrder';
 import { Program } from './Program';
 import { SetupPlan } from './SetupPlan';
@@ -35,6 +36,9 @@ export class Document {
 
   @LstTable(PartsInProgramPos.ID, PartsInProgramPos)
   partsInProgramPos: PartsInProgramPos[] = [];
+
+  @LstTable(PartUnload.ID, PartUnload)
+  partUnloads: PartUnload[] = [];
 
   @LstTable(LTTMasterData.ID, LTTMasterData)
   lttMasterData: LTTMasterData[] = [];
