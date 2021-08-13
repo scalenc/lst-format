@@ -9,6 +9,7 @@ import { Program } from './Program';
 import { SetupPlan } from './SetupPlan';
 import { SheetLoad } from './SheetLoad';
 import { SheetLoadData } from './SheetLoadData';
+import { SheetReposit } from './SheetReposit';
 import { SheetTech } from './SheetTech';
 import { ToolMasterData } from './ToolMasterData';
 
@@ -30,6 +31,9 @@ export class Document {
 
   @LstTable(SheetLoadData.ID, SheetLoadData)
   sheetLoadDatas: SheetLoadData[] = [];
+
+  @LstTable(SheetReposit.ID, SheetReposit)
+  sheetReposits: SheetReposit[] = [];
 
   @LstTable(PartsInProgram.ID, PartsInProgram)
   partsInProgram: PartsInProgram[] = [];
