@@ -14,6 +14,12 @@ export class SheetLoad {
   @LstData(10)
   name!: string;
 
+  @LstData(20, { unit: 'mm' })
+  loadingPositionX!: number;
+
+  @LstData(30, { unit: 'mm' })
+  loadingPositionY!: number;
+
   @LstData(580)
   doubleSheetDetectionActive!: boolean;
 
