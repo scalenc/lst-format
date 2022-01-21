@@ -1,3 +1,4 @@
+import { Attachment } from '../model/Attachment';
 import { ColumnDescription, ValueType } from '../model/ColumnDescription';
 import { ColumnDescriptions } from '../model/ColumnDescriptions';
 import { DataSet } from '../model/DataSet';
@@ -21,6 +22,7 @@ export class Writer {
       Constants.COMMENT +
       this.NEWLINE +
       this.writeTables(document.tables) +
+      this.writeAttachments(document.attachments) +
       Constants.END_DOCUMENT +
       this.NEWLINE;
     return content;
@@ -33,7 +35,7 @@ export class Writer {
       case MeasuringSystem.IMPERIAL:
         return Constants.Header.IMPERIAL_MEASURE + this.NEWLINE;
       default:
-        throw `Unknown measuring system ${document.measuringSystem}.`;
+        throw new Error(`Unknown measuring system ${document.measuringSystem}.`);
     }
   }
 
@@ -92,7 +94,7 @@ export class Writer {
       (Constants.Table.STRING_SEPARATOR + columnDescription.name + Constants.Table.STRING_SEPARATOR).padEnd(40) +
       Constants.Table.FIELD_SEPARATOR +
       Constants.Table.FIELD_SEPARATOR +
-      `'${columnDescription.unit}'` +
+      `'${columnDescription.unit ?? ''}'` +
       Constants.Table.FIELD_SEPARATOR +
       this.writeValueType(columnDescription.valueType) +
       this.NEWLINE;
@@ -105,8 +107,12 @@ export class Writer {
         return Constants.Table.ColumnDescription.NUMBER_VALUE_TYPE;
       case ValueType.TEXT:
         return Constants.Table.ColumnDescription.TEXT_VALUE_TYPE;
+      case ValueType.ENUM:
+        return Constants.Table.ColumnDescription.ENUM_VALUE_TYPE;
+      case ValueType.BOOLEAN:
+        return Constants.Table.ColumnDescription.BOOLEAN_VALUE_TYPE;
       default:
-        throw `Invalid value type ${valueType}.`;
+        throw new Error(`Invalid value type ${valueType}.`);
     }
   }
 
@@ -122,9 +128,9 @@ export class Writer {
     return content;
   }
 
-  private writeDataSet(columDescriptions: ColumnDescriptions, dataSet: DataSet): string {
-    if (columDescriptions.length !== dataSet.values.length) {
-      throw `Column description and data set have different counts.`;
+  private writeDataSet(columnDescriptions: ColumnDescriptions, dataSet: DataSet): string {
+    if (columnDescriptions.length !== dataSet.values.length) {
+      throw new Error(`Column description and data set have different counts.`);
     }
 
     let content = Constants.Table.Data.ID + Constants.Table.FIELD_SEPARATOR;
@@ -133,7 +139,7 @@ export class Writer {
 
     for (let i = 0; i < dataSet.values.length; ++i) {
       // eslint-disable-next-line security/detect-object-injection
-      let output = this.writeValue(columDescriptions.columns[i].valueType, dataSet.values[i]);
+      let output = this.writeValue(columnDescriptions.columns[i].valueType, dataSet.values[i]);
       if (i + 1 < dataSet.values.length) {
         output += Constants.Table.FIELD_SEPARATOR;
       }
@@ -148,7 +154,7 @@ export class Writer {
     }
     content += this.NEWLINE;
 
-    if (dataSet.attachment != null) {
+    if (dataSet.attachment?.length) {
       content += Constants.Table.Data.BEGIN_ATTACHMENT + this.NEWLINE + dataSet.attachment.join(this.NEWLINE);
       if (!content.endsWith('\n')) {
         content += this.NEWLINE;
@@ -162,11 +168,32 @@ export class Writer {
   private writeValue(valueType: ValueType, value: string): string {
     switch (valueType) {
       case ValueType.NUMBER:
+      case ValueType.ENUM:
+      case ValueType.BOOLEAN:
         return value;
       case ValueType.TEXT:
         return Constants.Table.STRING_SEPARATOR + value + Constants.Table.STRING_SEPARATOR;
       default:
-        throw `Invalid value type ${valueType}.`;
+        throw new Error(`Invalid value type ${valueType}.`);
     }
+  }
+
+  private writeAttachments(attachments: Attachment[]): string {
+    return attachments.map((x) => this.writeAttachment(x)).join('');
+  }
+
+  private writeAttachment(attachment: Attachment): string {
+    const content =
+      Constants.Table.ATTACHMENT_START_PREFIX +
+      attachment.name +
+      this.NEWLINE +
+      attachment.data.join(this.NEWLINE) +
+      (attachment.data.length ? this.NEWLINE : '') +
+      Constants.Table.ATTACHMENT_STOP_PREFIX +
+      attachment.name +
+      this.NEWLINE +
+      Constants.COMMENT +
+      this.NEWLINE;
+    return content;
   }
 }

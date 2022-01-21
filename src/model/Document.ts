@@ -1,3 +1,4 @@
+import { Attachment } from './Attachment';
 import { Table } from './Table';
 
 export enum MeasuringSystem {
@@ -8,6 +9,7 @@ export enum MeasuringSystem {
 export class Document {
   public measuringSystem = MeasuringSystem.METRIC;
   public tables: Table[] = [];
+  public attachments: Attachment[] = [];
 
   public indexByName(name: string): number {
     return this.tables.findIndex((x) => x.name === name);

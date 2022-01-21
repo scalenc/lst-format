@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { Attachment } from '../model/Attachment';
 import { Document, MeasuringSystem } from '../model/Document';
 import { Constants } from './Constants';
 import { Parser } from './Parser';
@@ -34,10 +35,10 @@ export class Reader {
 
       this.document = new Document();
       this.readHeader();
-      this.readTables();
+      this.readTablesAndAttachments();
 
       if (this.parser.token != Constants.END_DOCUMENT) {
-        throw `Expected end of document 'ED' in LST line ${this.parser.lineNumber}.`;
+        throw new Error(`Expected end of document 'ED' in LST line ${this.parser.lineNumber}.`);
       }
     }
 
@@ -51,17 +52,23 @@ export class Reader {
       } else if (this.parser.token == Constants.Header.IMPERIAL_MEASURE) {
         this.document!.measuringSystem = MeasuringSystem.IMPERIAL;
       } else {
-        throw `Unknown header line in LST line ${this.parser.lineNumber}.`;
+        throw new Error(`Unknown header line in LST line ${this.parser.lineNumber}.`);
       }
 
       this.parser.tryReadContentLine();
     }
   }
 
-  private readTables(): void {
+  private readTablesAndAttachments(): void {
     this.document!.tables = [];
-    while (this.parser.token != null && this.parser.token.startsWith(Constants.Table.BEGIN_PREFIX)) {
-      this.readTable();
+    while (this.parser.token != null) {
+      if (this.parser.token.startsWith(Constants.Table.BEGIN_PREFIX)) {
+        this.readTable();
+      } else if (this.parser.token.startsWith(Constants.Table.ATTACHMENT_START_PREFIX)) {
+        this.readAttachment();
+      } else {
+        break;
+      }
     }
   }
 
@@ -69,5 +76,16 @@ export class Reader {
     const tableReader = new TableReader(this.parser);
     tableReader.read();
     this.document!.tables.push(tableReader.table!);
+  }
+
+  private readAttachment(): void {
+    const attachment = new Attachment(this.parser.token.substring(Constants.Table.ATTACHMENT_START_PREFIX.length).trimEnd());
+    const stopToken = `${Constants.Table.ATTACHMENT_STOP_PREFIX}${attachment.name}`;
+    while (this.parser.tryReadLine() && !this.parser.token.startsWith(stopToken)) {
+      attachment.data.push(this.parser.token);
+    }
+    this.parser.tryReadContentLine();
+
+    this.document!.attachments.push(attachment);
   }
 }

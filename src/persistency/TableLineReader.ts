@@ -24,7 +24,7 @@ export class TableLineReader {
   private addField(value: string): void {
     if (this.connectFields) {
       if (this.fields.length == 0) {
-        throw `Corrupt field entry in LST line ${this.parser.lineNumber}.`;
+        throw new Error(`Corrupt field entry in LST line ${this.parser.lineNumber}.`);
       }
 
       this.fields[this.fields.length - 1] += value;

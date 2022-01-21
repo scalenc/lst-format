@@ -13,6 +13,9 @@ export const Constants = {
     BEGIN_PREFIX: 'BEGIN_',
     END_PREFIX: 'ENDE_',
 
+    ATTACHMENT_START_PREFIX: 'START_',
+    ATTACHMENT_STOP_PREFIX: 'STOP_',
+
     LINE_CONNECTOR: '*',
     FIELD_CONNECTOR: '-',
     STRING_SEPARATOR: "'",
@@ -36,11 +39,14 @@ export const Constants = {
       VALUE_TYPE_INDEX: 10,
       TEXT_VALUE_TYPE: 'T',
       NUMBER_VALUE_TYPE: 'Z',
+      ENUM_VALUE_TYPE: 'E',
+      BOOLEAN_VALUE_TYPE: 'B',
     },
 
     Data: {
       ID: 'DA',
       ID_INDEX: 0,
+      BNC_GE: 'GE', // FIXME what is that data line in BNCs starting with `GE,PA,`? Ignoring for now.
 
       BEGIN_ATTACHMENT: 'START_TEXT',
       END_ATTACHMENT: 'STOP_TEXT',

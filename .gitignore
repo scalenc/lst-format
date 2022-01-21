@@ -25,3 +25,5 @@ dist
 
 tf-outputs-dev.json
 tf-outputs-prod.json
+
+dump/
