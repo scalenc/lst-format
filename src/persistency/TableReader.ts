@@ -23,7 +23,7 @@ export class TableReader {
 
   private readBegin(): void {
     if (this.parser.token == null || !this.parser.token.startsWith(Constants.Table.BEGIN_PREFIX)) {
-      throw `Expected table definition in LST line ${this.parser.lineNumber}.`;
+      throw new Error(`Expected table definition in LST line ${this.parser.lineNumber}.`);
     }
 
     this.table!.name = this.parser.token.substring(Constants.Table.BEGIN_PREFIX.length);
@@ -45,7 +45,7 @@ export class TableReader {
 
   private addColumnSpecification(): void {
     if (this.tableLineReader.fields.length != Constants.Table.ColumnDescription.FIELD_COUNT || !this.isColumDescriptionLine()) {
-      throw `Invalid column definition in table ${this.table!.name} in LST line ${this.parser.lineNumber}.`;
+      throw new Error(`Invalid column definition in table ${this.table!.name} in LST line ${this.parser.lineNumber}.`);
     }
 
     const id = +this.tableLineReader.fields[Constants.Table.ColumnDescription.COLUMN_ID_INDEX];
@@ -61,8 +61,12 @@ export class TableReader {
       return ValueType.TEXT;
     } else if (valueTypeString == Constants.Table.ColumnDescription.NUMBER_VALUE_TYPE) {
       return ValueType.NUMBER;
+    } else if (valueTypeString == Constants.Table.ColumnDescription.ENUM_VALUE_TYPE) {
+      return ValueType.ENUM;
+    } else if (valueTypeString == Constants.Table.ColumnDescription.BOOLEAN_VALUE_TYPE) {
+      return ValueType.BOOLEAN;
     } else {
-      throw `Unknown value type ${valueTypeString} in LST line ${this.parser.lineNumber}.`;
+      throw new Error(`Unknown value type ${valueTypeString} in LST line ${this.parser.lineNumber}.`);
     }
   }
 
@@ -76,6 +80,8 @@ export class TableReader {
       } else if (this.isAttachmentStartLine()) {
         const attachment = this.readAttachment();
         this.addAttachment(attachment);
+      } else if (this.isLineToIgnore()) {
+        // Ignore this line.
       } else {
         break;
       }
@@ -87,7 +93,7 @@ export class TableReader {
       this.tableLineReader.fields.length != this.table!.columnDescriptions.length + 1 || // +1 due to 'DA'.
       !this.isDataSetLine()
     ) {
-      throw `Invalid data set in table ${this.table!.name} in LST line ${this.parser.lineNumber}.`;
+      throw new Error(`Invalid data set in table ${this.table!.name} in LST line ${this.parser.lineNumber}.`);
     }
 
     const dataSet = this.table!.addDataSet();
@@ -108,7 +114,7 @@ export class TableReader {
 
   private addAttachment(attachment: string[]): void {
     if (this.table!.dataSets.length == 0) {
-      throw `Text attachment without data set LST line ${this.parser.lineNumber}.`;
+      throw new Error(`Text attachment without data set LST line ${this.parser.lineNumber}.`);
     }
 
     this.table!.dataSets[this.table!.dataSets.length - 1].attachment = attachment;
@@ -116,7 +122,7 @@ export class TableReader {
 
   private readEnd(): void {
     if (this.tableLineReader.fields.length != 1 || this.tableLineReader.fields[0] != Constants.Table.END_PREFIX + this.table!.name) {
-      throw `Missing end of table ${this.table!.name} in LST line ${this.parser.lineNumber}.`;
+      throw new Error(`Missing end of table ${this.table!.name} in LST line ${this.parser.lineNumber}.`);
     }
 
     this.parser.tryReadContentLine();
@@ -128,7 +134,7 @@ export class TableReader {
       this.tableLineReader.fields[Constants.Table.Count.ID_INDEX] != Constants.Table.Count.ID ||
       this.tableLineReader.fields[Constants.Table.Count.TARGET_ID_INDEX] != id
     ) {
-      throw `Missing count of data sets in table definition in LST line ${this.parser.lineNumber}.`;
+      throw new Error(`Missing count of data sets in table definition in LST line ${this.parser.lineNumber}.`);
     }
 
     const count = +this.tableLineReader.fields[Constants.Table.Count.COUNT_INDEX];
@@ -147,5 +153,9 @@ export class TableReader {
 
   private isAttachmentStartLine(): boolean {
     return this.tableLineReader.fields.length == 1 && this.tableLineReader.fields[0] == Constants.Table.Data.BEGIN_ATTACHMENT;
+  }
+
+  private isLineToIgnore(): boolean {
+    return this.tableLineReader.fields.length >= 1 && this.tableLineReader.fields[Constants.Table.Data.ID_INDEX] == Constants.Table.Data.BNC_GE;
   }
 }

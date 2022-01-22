@@ -59,7 +59,7 @@ MM,AT,1, 200,1,1,,'Lagergutbezeichnung'               ,,'',T
 MM,AT,1, 210,1,1,,'Palettierungsflag'                 ,,'Bool',Z
 MM,AT,1, 220,1,1,,'Palettierungmodus'                 ,,'',Z
 MM,AT,1, 250,1,1,,'SystemPalletType'                  ,,'',T
-MM,AT,1, 270,1,1,,'Schneidlänge'                      ,,'mm',Z
+MM,AT,1, 270,1,1,,'Schneidlï¿½nge'                      ,,'mm',Z
 MM,AT,1, 280,1,1,,'viewer name machine'               ,,'',T
 MM,AT,1, 290,1,1,,'LaserDieID'                        ,,'',T
 MM,AT,1, 320,1,1,,'SortMasterBoxSetupConfiguration'   ,,'',Z
@@ -496,7 +496,7 @@ N60;(TAFELNAME: JOB43_1.LST)
 N70;(TRANSFERNAME: JOB43_1.LST PROGRAMMDURCHLAEUFE:1)
 N80;(MASCHINE:L26 TYP:51)
 N90;(STEUERUNG:Sin 840D VERSION:1)
-N100;(Programm generiert für:)
+N100;(Programm generiert fï¿½r:)
 N110;(NC-Version: 0.0.0.0)
 N120;(MMC-Version: 0.0.0.0)
 N130;(PLC-Version: 0.0.0.0)

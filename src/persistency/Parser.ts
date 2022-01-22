@@ -94,7 +94,7 @@ export class Parser {
     this.trySkipWhiteSpaces();
 
     if (this.char != Constants.Table.STRING_SEPARATOR) {
-      throw `Expected string but found ${this.char} in LST line ${this.lineNumber}.`;
+      throw new Error(`Expected string but found ${this.char} in LST line ${this.lineNumber}.`);
     }
     this.readNextChar();
 
@@ -106,7 +106,7 @@ export class Parser {
     this.token = this.source.substring(p0, this.pos);
 
     if (!this.isOk) {
-      throw `Missing end of string in LST line ${this.lineNumber}.`;
+      throw new Error(`Missing end of string in LST line ${this.lineNumber}.`);
     }
     this.readNextChar(); // Skip '\''.
   }
