@@ -162,6 +162,7 @@ export class DataSetMinutes extends DataSetUnit {
   constructor(dataset: DataSet, id: number, defaultValue: number) {
     super(dataset, id, defaultValue, {
       s: 1 / 60,
+      sec: 1 / 60,
       min: 1,
       h: 60,
     });
@@ -172,6 +173,7 @@ export class DataSetSeconds extends DataSetUnit {
   constructor(dataset: DataSet, id: number, defaultValue: number) {
     super(dataset, id, defaultValue, {
       s: 1,
+      sec: 1,
       min: 60,
       h: 60 * 60,
     });
