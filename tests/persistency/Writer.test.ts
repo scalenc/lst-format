@@ -2,7 +2,7 @@
 import { expect } from 'chai';
 import fs from 'fs';
 import path from 'path';
-import { Reader, Writer } from '../../src';
+import { DocumentBuilder, Reader, Writer } from '../../src';
 
 describe(Writer.name, () => {
   describe(Writer.prototype.writeDocuments.name, () => {
@@ -24,5 +24,28 @@ describe(Writer.name, () => {
         expect(ref.split(/\r?\n/)).deep.members(actual.split(/\r?\n/));
       })
     );
+
+    it('should write sample from README', () => {
+      const doc = new DocumentBuilder().table('FERTIGUNG_AUFTRAG_TMP', (t) => t.text(10, 'Jobname').num(50, 'SollAnzahl').data(['JOB43', 1])).document;
+      const out = new Writer().writeDocument(doc);
+      expect(out.replace(/\r\n/g, '\n')).equals(
+        `BD
+SET_METRIC
+C
+BEGIN_FERTIGUNG_AUFTRAG_TMP
+C
+ZA,MM,2
+MM,AT,1,  10,1,1,,'Jobname'                               ,,'',T
+MM,AT,1,  50,1,1,,'SollAnzahl'                            ,,'',Z
+C
+ZA,DA,1
+DA,'JOB43',1
+C
+ENDE_FERTIGUNG_AUFTRAG_TMP
+C
+ED
+`.replace(/\r\n/g, '\n')
+      );
+    });
   });
 });
