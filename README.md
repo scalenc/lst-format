@@ -10,9 +10,9 @@ It comes with a plain class model of the LST file structure and a persistency la
 ## Installation
 
 ```sh
-npm install lst-format
-yarn add lst-format
-pnpm add lst-format
+npm install @scalenc/lst-format
+yarn add @scalenc/lst-format
+pnpm add @scalenc/lst-format
 ```
 
 ## Examples

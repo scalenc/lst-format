@@ -12,6 +12,26 @@
     "build": "tsc",
     "prepublish": "tsc"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/scalenc/lst-format.git"
+  },
+  "keywords": [
+    "NC",
+    "CNC",
+    "computer numerical control",
+    "LST",
+    "machine",
+    "laser",
+    "punch",
+    "bend",
+    "TRUMPF"
+  ],
+  "author": "scalenc",
+  "bugs": {
+    "url": "https://github.com/scalenc/lst-format/issues"
+  },
+  "homepage": "https://github.com/scalenc/lst-format",
   "dependencies": {
     "reflect-metadata": "^0.1.13"
   },
