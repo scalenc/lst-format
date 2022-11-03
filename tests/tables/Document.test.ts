@@ -2,7 +2,7 @@
 import { expect } from 'chai';
 import fs from 'fs';
 import path from 'path';
-import { Reader, newDocument } from '../../src';
+import { newDocument, Reader, Tables } from '../../src';
 import { Document } from '../../src/tables';
 
 describe(Document.name, () => {
@@ -20,5 +20,21 @@ describe(Document.name, () => {
 
     expect(second.programs).is.lengthOf(2);
     expect(second.programs[0].data[0]).equals('N10MSG("HAUPTPROGRAMMNUMMER,JOB43_1" )');
+  });
+
+  it('should load document for README sample', () => {
+    const lst = `BD
+    SET_METRIC
+    BEGIN_FERTIGUNG_AUFTRAG_TMP
+    ZA,MM,6
+    MM,AT,1,  10,1,1,,'Jobname'                           ,,'',T
+    MM,AT,1,  50,1,1,,'SollAnzahl'                        ,,'',Z
+    ZA,DA,1
+    DA,'JOB43',1
+    ENDE_FERTIGUNG_AUFTRAG_TMP
+    ED`;
+    const docs = new Reader(lst).read().documents;
+    const doc = newDocument(Tables.Document, docs[0]);
+    expect(doc.productionOrders[0].jobName).equals('JOB43');
   });
 });

@@ -30,9 +30,7 @@ MM,AT,1,  60,1,1,,'Istanzahl'                             ,,'',Z
 MM,AT,1, 150,1,1,,'Programmstatus'                        ,,'',Z
 C
 ZA,DA,1
-DA,'Order001','',1,
-*  'C:\Users\ScaleNC-5a25e1\AppData\Roaming\Trumpf\TruTops\TecZoneBendAdapter\Adapter\d2f9417b-241c-4bba-b809-2ae7c4573bfb\0001.stp_Bend1.bnc',
-*  0,0,0
+DA,'Order001','',1,'C:\Data\0001.stp_Bend1.bnc',0,0,0
 C
 ENDE_FERTIGUNG_AUFTRAG_TMP
 C
@@ -66,9 +64,9 @@ MM,AT,1, 250,1,1,,'TeilabmessungY'                        ,,'mm',Z
 MM,AT,1, 260,1,1,,'TeilabmessungZ'                        ,,'mm',Z
 C
 ZA,DA,1
-DA,'Part001','b19a4726-4420-4485-95b6-caae5a189110','0001.stp',
+DA,'Part001','3872f877-5f64-4896-b5b5-8539146db956','0001.stp',
 *  '0001.stp_Bend1','0001.stp_Bend1','','21.01.2022 07:42:15',
-*  '21.01.2022 07:42:15','21.01.2022 07:42:16','ScaleNC-5a25e1','','',
+*  '21.01.2022 07:42:15','21.01.2022 07:42:16','ScaleNC','','',
 *  'AlMg3',4.00,3.86,982.62,435.79,2,1,'0001.stp_Bend1.bnc','',0.00,
 *  913.86,435.78,136.46
 C

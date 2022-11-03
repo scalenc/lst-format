@@ -13,5 +13,22 @@ describe(Reader.name, () => {
         expect(docs).length.gt(0);
       })
     );
+
+    it(`should read sample from README`, () => {
+      const lst = `BD
+SET_METRIC
+BEGIN_FERTIGUNG_AUFTRAG_TMP
+ZA,MM,6
+MM,AT,1,  10,1,1,,'Jobname'                           ,,'',T
+MM,AT,1,  50,1,1,,'SollAnzahl'                        ,,'',Z
+ZA,DA,1
+DA,'JOB43',1
+ENDE_FERTIGUNG_AUFTRAG_TMP
+ED`;
+      const docs = new Reader(lst).read().documents;
+      expect(docs).lengthOf(1);
+      expect(docs[0].tables).lengthOf(1);
+      expect(docs[0].tables[0].name).equals('FERTIGUNG_AUFTRAG_TMP');
+    });
   });
 });
