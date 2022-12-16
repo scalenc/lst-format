@@ -62,4 +62,67 @@ export class ToolMasterData {
 
   @LstData(390, { unit: 'mm' })
   multiToolOffsetY!: number;
+
+  @LstData(600, { unit: 'mm' })
+  toolContourSizeX!: number;
+
+  @LstData(610, { unit: 'mm' })
+  toolContourSizeY!: number;
+
+  @LstData(620, { unit: 'mm' })
+  toolContourDiameter!: number;
+
+  @LstData(630, { unit: 'mm' })
+  toolContourCornerRadius!: number;
+
+  @LstData(640, { unit: 'deg' })
+  toolContourAngle!: number;
+
+  @LstData(650, { unit: 'mm' })
+  immersionDepth!: number;
+
+  @LstData(660, { unit: 'mm' })
+  toolWebThickness1!: number;
+
+  @LstData(670, { unit: 'mm' })
+  toolWebThickness2!: number;
+
+  @LstData(680, { unit: 'mm' })
+  cuttingEdgeRadius1!: number;
+
+  @LstData(690, { unit: 'mm' })
+  cuttingEdgeRadius2!: number;
+
+  @LstData(700, { unit: 'mm' })
+  cuttingEdgeRadius3!: number;
+
+  @LstData(710, { unit: 'mm' })
+  cuttingEdgeRadius4!: number;
+
+  @LstData(720, { unit: 'mm' })
+  interspace1!: number;
+
+  @LstData(730, { unit: 'mm' })
+  interspace2!: number;
+
+  @LstData(740, { unit: 'mm' })
+  interspace3!: number;
+
+  @LstData(750, { unit: 'mm' })
+  interspace4!: number;
+
+  @LstData(760, { unit: 'deg' })
+  offsetAngle!: number;
+
+  @LstData(770, { unit: 'mm' })
+  formingResultHeight!: number;
+
+  @LstData(810, { unit: 'mm' })
+  coreHoleDiameter!: number;
+
+  @LstData(820, { unit: 'mm' })
+  threadLead!: number;
+
+  @LstData(1010, { unit: 'mm' })
+  chamferHeight!: number;
 }
