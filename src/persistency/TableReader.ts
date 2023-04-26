@@ -57,17 +57,14 @@ export class TableReader {
   }
 
   private toValueType(valueTypeString: string): ValueType {
-    if (valueTypeString == Constants.Table.ColumnDescription.TEXT_VALUE_TYPE) {
-      return ValueType.TEXT;
-    } else if (valueTypeString == Constants.Table.ColumnDescription.NUMBER_VALUE_TYPE) {
-      return ValueType.NUMBER;
-    } else if (valueTypeString == Constants.Table.ColumnDescription.ENUM_VALUE_TYPE) {
-      return ValueType.ENUM;
-    } else if (valueTypeString == Constants.Table.ColumnDescription.BOOLEAN_VALUE_TYPE) {
-      return ValueType.BOOLEAN;
-    } else {
-      throw new Error(`Unknown value type ${valueTypeString} in LST line ${this.parser.lineNumber}.`);
-    }
+    const valueType = {
+      [Constants.Table.ColumnDescription.TEXT_VALUE_TYPE]: ValueType.TEXT,
+      [Constants.Table.ColumnDescription.NUMBER_VALUE_TYPE]: ValueType.NUMBER,
+      [Constants.Table.ColumnDescription.ENUM_VALUE_TYPE]: ValueType.ENUM,
+      [Constants.Table.ColumnDescription.BOOLEAN_VALUE_TYPE]: ValueType.BOOLEAN,
+    }[valueTypeString.toUpperCase()];
+    if (valueType) return valueType;
+    throw new Error(`Unknown value type ${valueTypeString} in LST line ${this.parser.lineNumber}.`);
   }
 
   private readData(): void {
