@@ -21,8 +21,9 @@ BEGIN_FERTIGUNG_AUFTRAG_TMP
 ZA,MM,6
 MM,AT,1,  10,1,1,,'Jobname'                           ,,'',T
 MM,AT,1,  50,1,1,,'SollAnzahl'                        ,,'',Z
+MM,AT,1,  60,1,1,,'IstAnzahl'                         ,,'',z
 ZA,DA,1
-DA,'JOB43',1
+DA,'JOB43',1,1
 ENDE_FERTIGUNG_AUFTRAG_TMP
 ED`;
       const docs = new Reader(lst).read().documents;
