@@ -22,7 +22,7 @@ export class TableReader {
   }
 
   private readBegin(): void {
-    if (this.parser.token == null || !this.parser.token.startsWith(Constants.Table.BEGIN_PREFIX)) {
+    if (this.parser.token === null || !this.parser.token.startsWith(Constants.Table.BEGIN_PREFIX)) {
       throw new Error(`Expected table definition in LST line ${this.parser.lineNumber}.`);
     }
 
@@ -44,7 +44,7 @@ export class TableReader {
   }
 
   private addColumnSpecification(): void {
-    if (this.tableLineReader.fields.length != Constants.Table.ColumnDescription.FIELD_COUNT || !this.isColumDescriptionLine()) {
+    if (this.tableLineReader.fields.length !== Constants.Table.ColumnDescription.FIELD_COUNT || !this.isColumDescriptionLine()) {
       throw new Error(`Invalid column definition in table ${this.table!.name} in LST line ${this.parser.lineNumber}.`);
     }
 
@@ -86,8 +86,9 @@ export class TableReader {
   }
 
   private addDataSet(): void {
+    if (this.tableLineReader.fields.length === this.table!.columnDescriptions.length) this.tableLineReader.fields.push(''); // Assume empty field and end of line
     if (
-      this.tableLineReader.fields.length != this.table!.columnDescriptions.length + 1 || // +1 due to 'DA'.
+      this.tableLineReader.fields.length !== this.table!.columnDescriptions.length + 1 || // +1 due to 'DA'.
       !this.isDataSetLine()
     ) {
       throw new Error(`Invalid data set in table ${this.table!.name} in LST line ${this.parser.lineNumber}.`);
@@ -96,21 +97,21 @@ export class TableReader {
     const dataSet = this.table!.addDataSet();
     dataSet.values = this.tableLineReader.fields.slice(1); // Remove 'DA' field.
 
-    if (this.parser.isOk && this.parser.token == Constants.Table.Data.BEGIN_ATTACHMENT) {
+    if (this.parser.isOk && this.parser.token === Constants.Table.Data.BEGIN_ATTACHMENT) {
       dataSet.attachment = this.readAttachment();
     }
   }
 
   private readAttachment(): string[] {
     const content = [];
-    while (this.parser.tryReadLine() && this.parser.token != Constants.Table.Data.END_ATTACHMENT) {
+    while (this.parser.tryReadLine() && this.parser.token !== Constants.Table.Data.END_ATTACHMENT) {
       content.push(this.parser.token);
     }
     return content;
   }
 
   private addAttachment(attachment: string[]): void {
-    if (this.table!.dataSets.length == 0) {
+    if (this.table!.dataSets.length === 0) {
       throw new Error(`Text attachment without data set LST line ${this.parser.lineNumber}.`);
     }
 
@@ -118,7 +119,7 @@ export class TableReader {
   }
 
   private readEnd(): void {
-    if (this.tableLineReader.fields.length != 1 || this.tableLineReader.fields[0] != Constants.Table.END_PREFIX + this.table!.name) {
+    if (this.tableLineReader.fields.length !== 1 || this.tableLineReader.fields[0] !== Constants.Table.END_PREFIX + this.table!.name) {
       throw new Error(`Missing end of table ${this.table!.name} in LST line ${this.parser.lineNumber}.`);
     }
 
@@ -127,9 +128,9 @@ export class TableReader {
 
   private readCountDataSet(id: string): number {
     if (
-      this.tableLineReader.fields.length != Constants.Table.Count.FIELDS_COUNT ||
-      this.tableLineReader.fields[Constants.Table.Count.ID_INDEX] != Constants.Table.Count.ID ||
-      this.tableLineReader.fields[Constants.Table.Count.TARGET_ID_INDEX] != id
+      this.tableLineReader.fields.length !== Constants.Table.Count.FIELDS_COUNT ||
+      this.tableLineReader.fields[Constants.Table.Count.ID_INDEX] !== Constants.Table.Count.ID ||
+      this.tableLineReader.fields[Constants.Table.Count.TARGET_ID_INDEX] !== id
     ) {
       throw new Error(`Missing count of data sets in table definition in LST line ${this.parser.lineNumber}.`);
     }
@@ -140,19 +141,19 @@ export class TableReader {
 
   private isColumDescriptionLine(): boolean {
     const fields = this.tableLineReader.fields;
-    return fields.length > 1 && fields[Constants.Table.ColumnDescription.ID_INDEX].toUpperCase() == Constants.Table.ColumnDescription.ID;
+    return fields.length > 1 && fields[Constants.Table.ColumnDescription.ID_INDEX].toUpperCase() === Constants.Table.ColumnDescription.ID;
   }
 
   private isDataSetLine(): boolean {
     const fields = this.tableLineReader.fields;
-    return fields.length > 1 && fields[Constants.Table.Data.ID_INDEX].toUpperCase() == Constants.Table.Data.ID;
+    return fields.length > 1 && fields[Constants.Table.Data.ID_INDEX].toUpperCase() === Constants.Table.Data.ID;
   }
 
   private isAttachmentStartLine(): boolean {
-    return this.tableLineReader.fields.length == 1 && this.tableLineReader.fields[0] == Constants.Table.Data.BEGIN_ATTACHMENT;
+    return this.tableLineReader.fields.length === 1 && this.tableLineReader.fields[0] === Constants.Table.Data.BEGIN_ATTACHMENT;
   }
 
   private isLineToIgnore(): boolean {
-    return this.tableLineReader.fields.length >= 1 && this.tableLineReader.fields[Constants.Table.Data.ID_INDEX] == Constants.Table.Data.BNC_GE;
+    return this.tableLineReader.fields.length >= 1 && this.tableLineReader.fields[Constants.Table.Data.ID_INDEX] === Constants.Table.Data.BNC_GE;
   }
 }
