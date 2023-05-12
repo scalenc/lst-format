@@ -20,6 +20,7 @@ export const Constants = {
     FIELD_CONNECTOR: '-',
     STRING_SEPARATOR: "'",
     FIELD_SEPARATOR: ',',
+    EMPTY_FIELD_TOKEN: null as unknown as string, // FIXME null may be unexpected
 
     Count: {
       FIELDS_COUNT: 3,
