@@ -86,7 +86,6 @@ export class TableReader {
   }
 
   private addDataSet(): void {
-    if (this.tableLineReader.fields.length === this.table!.columnDescriptions.length) this.tableLineReader.fields.push(''); // Assume empty field and end of line
     if (
       this.tableLineReader.fields.length !== this.table!.columnDescriptions.length + 1 || // +1 due to 'DA'.
       !this.isDataSetLine()

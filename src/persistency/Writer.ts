@@ -166,6 +166,7 @@ export class Writer {
   }
 
   private writeValue(valueType: ValueType, value: string): string {
+    if (value === Constants.Table.EMPTY_FIELD_TOKEN) return '';
     switch (valueType) {
       case ValueType.NUMBER:
       case ValueType.ENUM:

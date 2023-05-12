@@ -45,7 +45,7 @@ export class Parser {
   public trySkipWhiteSpacesCommentsOrLineEnd(): void {
     do {
       this.trySkipWhiteSpacesOrLineEnd();
-    } while (this.isOk && this.char == Constants.COMMENT && this.tryReadLine() && this.isOk);
+    } while (this.isOk && this.char === Constants.COMMENT && this.tryReadLine() && this.isOk);
     this.token = '';
   }
 
@@ -70,8 +70,8 @@ export class Parser {
 
     if (this.char === Constants.Table.STRING_SEPARATOR) {
       this.readString();
-    } else if (this.char == Constants.Table.FIELD_SEPARATOR) {
-      this.token = null as unknown as string; // FIXME
+    } else if (this.char === Constants.Table.FIELD_SEPARATOR) {
+      this.token = Constants.Table.EMPTY_FIELD_TOKEN;
     } else {
       this.readValue();
     }
@@ -83,7 +83,7 @@ export class Parser {
     this.trySkipWhiteSpaces();
 
     const p0 = this.pos;
-    while (this.isOk && this.char != Constants.Table.FIELD_SEPARATOR && !/\s/.test(this.char!)) {
+    while (this.isOk && this.char !== Constants.Table.FIELD_SEPARATOR && !/\s/.test(this.char!)) {
       this.readNextChar();
     }
 
@@ -93,13 +93,13 @@ export class Parser {
   public readString(): void {
     this.trySkipWhiteSpaces();
 
-    if (this.char != Constants.Table.STRING_SEPARATOR) {
+    if (this.char !== Constants.Table.STRING_SEPARATOR) {
       throw new Error(`Expected string but found ${this.char} in LST line ${this.lineNumber}.`);
     }
     this.readNextChar();
 
     const p0 = this.pos;
-    while (this.isOk && this.char != Constants.Table.STRING_SEPARATOR) {
+    while (this.isOk && this.char !== Constants.Table.STRING_SEPARATOR) {
       this.readNextChar();
     }
 
@@ -114,7 +114,7 @@ export class Parser {
   public tryReadFieldSeparator(): boolean {
     this.trySkipWhiteSpaces();
 
-    if (this.char != Constants.Table.FIELD_SEPARATOR) {
+    if (this.char !== Constants.Table.FIELD_SEPARATOR) {
       return false;
     }
 
