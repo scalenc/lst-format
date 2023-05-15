@@ -44,6 +44,7 @@ export class TableLineReader {
     this.parser.trySkipWhiteSpaces();
     if (this.parser.isAtLineEnd) {
       this.parser.readNextChar();
+      this.parser.trySkipWhiteSpaces();
       if (!this.parser.isOk) {
         isWithinLine = false;
       } else if (this.parser.char === Constants.Table.FIELD_CONNECTOR) {
