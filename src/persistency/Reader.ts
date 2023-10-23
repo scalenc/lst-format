@@ -29,7 +29,7 @@ export class Reader {
 
     this.parser.tryReadContentLine();
 
-    if (this.parser.token === '%') {
+    if (this.parser.token === Constants.PERCENT) {
       // if program is for a TC500 it might start with a % and the line should be skipped
       this.parser.tryReadContentLine();
     }

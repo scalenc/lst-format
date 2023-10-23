@@ -4,6 +4,8 @@ export const Constants = {
 
   COMMENT: 'C',
 
+  PERCENT: '%',
+
   Header: {
     METRIC_MEASURE: 'SET_METRIC',
     IMPERIAL_MEASURE: 'SET_INCH',
