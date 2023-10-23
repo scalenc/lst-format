@@ -21,7 +21,6 @@ export class Parser {
   }
 
   public tryReadContentLine(): boolean {
-    this.trySkipPercentSymbolInFirstLine();
     this.trySkipWhiteSpacesCommentsOrLineEnd();
     return this.tryReadLine();
   }
@@ -58,12 +57,6 @@ export class Parser {
 
   public trySkipWhiteSpaces(): void {
     while (this.isOk && !this.isAtLineEnd && /\s/.test(this.char!)) {
-      this.readNextChar();
-    }
-  }
-
-  private trySkipPercentSymbolInFirstLine(): void {
-    if (this.lineNumber === 1 && this.isOk && /%/.test(this.char!)) {
       this.readNextChar();
     }
   }

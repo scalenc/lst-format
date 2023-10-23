@@ -4,6 +4,8 @@ export const Constants = {
 
   COMMENT: 'C',
 
+  TC500_BEGIN_DOCUMENT: '%',
+
   Header: {
     METRIC_MEASURE: 'SET_METRIC',
     IMPERIAL_MEASURE: 'SET_INCH',
