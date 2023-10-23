@@ -4,7 +4,7 @@ export const Constants = {
 
   COMMENT: 'C',
 
-  PERCENT: '%',
+  TC500_BEGIN_DOCUMENT: '%',
 
   Header: {
     METRIC_MEASURE: 'SET_METRIC',
