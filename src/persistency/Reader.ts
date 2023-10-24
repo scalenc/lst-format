@@ -26,12 +26,14 @@ export class Reader {
 
   public tryRead(): boolean {
     this.document = undefined;
+    let preamble: string | undefined = undefined;
 
     this.parser.tryReadContentLine();
 
     if (this.parser.token === Constants.TC500_BEGIN_DOCUMENT) {
       // if program is for a TC500 it might start with a % and the line should be skipped
       this.parser.tryReadContentLine();
+      preamble = Constants.TC500_BEGIN_DOCUMENT;
     }
 
     const success = this.parser.token == Constants.BEGIN_DOCUMENT;
@@ -39,6 +41,8 @@ export class Reader {
       this.parser.tryReadContentLine();
 
       this.document = new Document();
+      if (preamble) this.document.preamble = preamble;
+
       this.readHeader();
       this.readTablesAndAttachments();
 

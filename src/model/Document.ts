@@ -7,6 +7,7 @@ export enum MeasuringSystem {
 }
 
 export class Document {
+  public preamble: string | undefined = undefined;
   public measuringSystem = MeasuringSystem.METRIC;
   public tables: Table[] = [];
   public attachments: Attachment[] = [];
