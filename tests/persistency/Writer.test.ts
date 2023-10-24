@@ -12,7 +12,7 @@ describe(Writer.name, () => {
       });
     });
 
-    ['01.lst', '0001.stp_Bend1.bnc', '01_emptyEntryAtEnd.lst'].forEach((name) =>
+    ['01.lst', '0001.stp_Bend1.bnc', '01_emptyEntryAtEnd.lst', '01_startWithPercent.lst'].forEach((name) =>
       it(`should read and write '${name}'`, async () => {
         const lst = await fs.promises.readFile(path.join(__dirname, '../data', name), 'latin1');
         const docs = new Reader(lst).read().documents;

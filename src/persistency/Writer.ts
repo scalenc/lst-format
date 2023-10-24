@@ -16,6 +16,7 @@ export class Writer {
 
   public writeDocument(document: Document): string {
     const content =
+      this.writePreamble(document) +
       Constants.BEGIN_DOCUMENT +
       this.NEWLINE +
       this.writeHeader(document) +
@@ -196,5 +197,9 @@ export class Writer {
       Constants.COMMENT +
       this.NEWLINE;
     return content;
+  }
+
+  private writePreamble(document: Document): string {
+    return document.preamble ? document.preamble + this.NEWLINE : '';
   }
 }
