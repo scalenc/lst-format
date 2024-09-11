@@ -79,8 +79,13 @@ export class TableBuilder {
     return this.num(id, name, 'deg');
   }
 
-  data(values: (number | string | boolean)[]): TableBuilder {
-    this.table.addDataSet().values = values.map((x) => `${x}`);
+  data(values: (number | string | boolean)[] | (number | string | boolean)[][]): TableBuilder {
+    if (Array.isArray(values[0])) {
+      values.forEach((v) => {
+        if (!Array.isArray(v)) throw new Error('Invalid data - expected array of arrays');
+        this.table.addDataSet().values = v.map((x) => `${x}`);
+      });
+    } else this.table.addDataSet().values = values.map((x) => `${x}`);
     return this;
   }
 }

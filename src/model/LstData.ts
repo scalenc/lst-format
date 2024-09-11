@@ -153,7 +153,8 @@ export function newDataSet<T, ARGS extends any[]>(factory: new (...args: ARGS) =
     throw new Error(`Type ${factory} is not decorated with @LstData not @LstDataAttachment decorator.`);
   }
   const $dataSet = dataSet ?? new DataSet(newColumnDescriptions(factory));
-  const instance = Object.assign(new factory(...args), { $dataSet });
+  const instance = new factory(...args) as T & { $dataSet: DataSet };
+  instance.$dataSet = $dataSet;
   if (map) {
     Object.entries(map).forEach(([propertyName, lstData]) => {
       const proxy = lstData.proxyFactory($dataSet);
